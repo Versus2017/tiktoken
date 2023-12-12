@@ -21,7 +21,11 @@ def read_file(blobpath: str) -> bytes:
         with blobfile.BlobFile(blobpath, "rb") as f:
             return f.read()
     # avoiding blobfile for public files helps avoid auth issues, like MFA prompts
-    resp = requests.get(blobpath)
+    proxies = {
+        "http": current_app.config['GPT_PROXY'],
+        "https": current_app.config['GPT_PROXY'],
+    }
+    resp = requests.get(blobpath, proxies=proxies)
     resp.raise_for_status()
     return resp.content
 
