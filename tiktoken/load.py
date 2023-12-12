@@ -8,6 +8,7 @@ import tempfile
 import uuid
 
 import requests
+from flask import current_app
 
 
 def read_file(blobpath: str) -> bytes:
